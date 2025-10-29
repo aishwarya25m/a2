@@ -1,0 +1,23 @@
+import bluetooth
+
+# Example using PyBluez (you need to discover the device's address first)
+# Replace '00:1A:7D:DA:71:13' with your device's MAC address
+device_address = '00:1A:7D:DA:71:13'
+port = 1
+
+try:
+    sock = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
+    sock.connect((device_address, port))
+    print("Connected via Bluetooth. Monitoring...")
+
+    while True:
+        data = sock.recv(1024)
+        if data:
+            # Process and log your data here, similar to the serial example
+            print(f"Received data: {data.decode('utf-8')}")
+
+except bluetooth.btcommon.BluetoothError as e:
+    print(f"Bluetooth connection failed: {e}")
+finally:
+    if 'sock' in locals():
+        sock.close()
